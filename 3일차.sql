@@ -36,7 +36,7 @@ AND prod_name = '%C%' -- ?
 ORDER BY prod_min_price desc;
 -- 30원 이상 50원 미만
 -- AND(그리고), OR(또는)
-
+--
 /* 표현식 CASE */
 SELECT CUST_GENDER
      , CUST_NAME
