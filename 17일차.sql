@@ -11,7 +11,7 @@ CREATE OR REPLACE PROCEDURE my_job_proc
     , p_job_title IN JOBS.JOB_TITLE%TYPE
     , p_min_sal   IN JOBS.MIN_SALARY%TYPE
     , p_max_sal   IN JOBS.MAX_SALARY%TYPE -- :=1000; 방식으로 DEFAULT 설정 가능
-)
+) 
 IS
 BEGIN
   INSERT INTO JOBS (JOB_ID, JOB_TITLE, MIN_SALARY, MAX_SALARY)
