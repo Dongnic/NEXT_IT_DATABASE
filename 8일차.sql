@@ -166,10 +166,10 @@ FROM  (SELECT (select emp_name
          , a.employee_id                      as 사번
          , sum(a.amount_sold)                  as 판매금액
          , sum(a.quantity_sold)              as 판매수량
-    FROM sales a
-    WHERE TO_CHAR(a.sales_date, 'yyyy') = '2000'
-    GROUP BY a.employee_id
-    ORDER BY 3 desc)
+         FROM sales a
+         WHERE TO_CHAR(a.sales_date, 'yyyy') = '2000'
+         GROUP BY a.employee_id
+         ORDER BY 3 desc)
 WHERE rownum = 1;
 
 -- 2000년도 최다판매상품(수량기준) 1 ~ 3등까지 출력하시오

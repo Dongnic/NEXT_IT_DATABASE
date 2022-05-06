@@ -250,10 +250,23 @@ FROM
     FROM reservation   
     WHERE BRANCH = '금천'
     AND CANCEL = 'N'
-    GROUP BY TO_CHAR(TO_DATE(reserv_date,'yyyymmdd'),'day')) a
+    GROUP BY TO_CHAR(TO_DATE(reserv_date,'yyyymmdd'),'day')
+    ORDER BY 1) a
 WHERE b.요일 = a.요일(+)
 ORDER BY 1;
 
-
-select to_date('7','day')
-from dual;
+SELECT *
+FROM
+(SELECT TO_DATE('20220423','yyyymmdd')+level as 요일
+    FROM dual
+    CONNECT BY LEVEL <= 7) b
+,    
+(SELECT TO_DATE(reserv_date,'yyyymmdd') 요일
+         , count(reserv_no) 예약수 
+    FROM reservation   
+    WHERE BRANCH = '금천'
+    AND CANCEL = 'N'
+    GROUP BY TO_DATE(reserv_date,'yyyymmdd')
+    ORDER BY 1) a   
+WHERE b.요일 = a.요일(+)
+ORDER BY 1;

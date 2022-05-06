@@ -52,7 +52,7 @@ ORDER BY
 -- COUNT <- 로우의 건수 집계
 SELECT COUNT(*)                  -- NULL 포함 
      , COUNT(ALL department_id)  -- default ALL
-     , COUNT(department_id)  -- all은 중복 포함 
+     , COUNT(department_id)  -- all은 중복 포함 = ALL 
      , COUNT(distinct department_id)  -- 중복제거 
 FROM employees;
 

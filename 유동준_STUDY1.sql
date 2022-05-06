@@ -47,6 +47,26 @@ WHERE cancel = 'Y'
 GROUP BY SUBSTR(reserv_date, 5, 2)
 ORDER BY 2 desc;
 
+--5-1번 문제 1 ~ 12월까지 취소 건수를 출력하시오
+
+SELECT a.월                    as 월
+     , NVL(b.취소건수, 0)       as 취소건수
+FROM
+        (SELECT LPAD(level, 2, '0') as 월
+              FROM dual
+              CONNECT BY LEVEL <= 12) a
+        ,
+        (SELECT SUBSTR(reserv_date, 5, 2) as 월
+             , COUNT(*)                  as 취소건수
+        FROM reservation
+        WHERE cancel = 'Y'
+        GROUP BY SUBSTR(reserv_date, 5, 2)
+        ORDER BY 2 desc) b
+WHERE a.월 = b.월(+)
+ORDER BY 1;
+
+
+
 -- 6번 문제
 
 SELECT b.product_name as 상품이름 
@@ -58,7 +78,7 @@ ORDER BY 2 desc;
 
 -- 7번 문제 
 
-SELECT 매출월
+SELECT t2.년월
      , sum(DECODE(t1.상품이름, 'SPECIAL_SET' , 매출, 0)) as SPECIAL_SET 
      , sum(DECODE(t1.상품이름, 'PASTA' , 매출, 0))       as PASTA
      , sum(DECODE(t1.상품이름, 'PIZZA' , 매출, 0))       as PIZZA
@@ -69,14 +89,19 @@ SELECT 매출월
      , sum(DECODE(t1.상품이름, 'SANDWICH' , 매출, 0))    as SANDWICH
      , sum(DECODE(t1.상품이름, 'WINE' , 매출, 0))        as WINE
      , sum(DECODE(t1.상품이름, 'JUICE' , 매출, 0))       as JUICE
-FROM
+FROM (SELECT '2017'|| LPAD(level, 2, '0') as 년월
+      FROM dual
+      CONNECT BY LEVEL <= 12) t2
+,
     (SELECT substr(reserv_no,1,6) as 매출월 
          , b.product_name         as 상품이름 
          , sum(a.sales)           as 매출
     FROM order_info a, ITEM b
     WHERE a.item_id = b.item_id
     GROUP BY substr(reserv_no,1,6), b.product_name) t1
-GROUP BY 매출월;
+WHERE t2.년월 = t1.매출월(+)
+GROUP BY t2.년월
+ORDER BY 1;
 
 
 -- 8번문제

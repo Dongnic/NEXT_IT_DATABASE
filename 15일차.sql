@@ -177,7 +177,7 @@ END;
 --    *****
 DECLARE
  vn_user_num number := :su;
- vs_result varchar2(100) := '';
+ vs_result long := '';
 BEGIN
  FOR i IN 1..vn_user_num
  LOOP

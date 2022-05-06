@@ -80,15 +80,14 @@ FROM
         WHERE a.reserv_no = b.reserv_no
         AND a.item_id = c.item_id
         AND b.branch = (SELECT 지점
-                        FROM 
-                        (SELECT b.branch 지점 
-                             , sum(a.sales) 매출
-                        FROM order_info a , reservation b
-                        WHERE a.reserv_no = b.reserv_no
-                        AND b.cancel = 'N'
-                        GROUP BY b.branch
-                        ORDER BY 2 desc)
-        WHERE ROWNUM = 1)
+                        FROM  (SELECT b.branch 지점 
+                                     , sum(a.sales) 매출
+                                FROM order_info a , reservation b
+                                WHERE a.reserv_no = b.reserv_no
+                                AND b.cancel = 'N'
+                                GROUP BY b.branch
+                                ORDER BY 2 desc)
+                        WHERE ROWNUM = 1)
         GROUP BY c.product_desc, c.price
         ORDER BY 2 desc) t1
 WHERE ROWNUM BETWEEN 1 AND 3;

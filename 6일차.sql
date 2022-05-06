@@ -161,7 +161,4 @@ ALTER TABLE 강의내역 ADD CONSTRAINT FK_교수_교수번호
 ALTER TABLE 강의내역 ADD CONSTRAINT FK_과목_과목번호2 
             FOREIGN KEY(과목번호) REFERENCES 과목(과목번호);
 
-
 COMMIT;
-
-
