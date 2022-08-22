@@ -1,0 +1,76 @@
+
+	$(document).ready(function () {
+	var isIdChecked = false;
+		$("#idCheck").on("click", function(e) {
+			e.preventDefault();
+			var id = $("input[name='memId']").val();
+			$.ajax({
+				url : "<c:url value='/join/idCheck.wow' />"	
+					<%-- "<%=request.getContextPath()%>/join/idCheck.wow"
+					"${pageContext.request.contextPath}/join/idCheck.wow"
+					"idCheck.wow" = /home/join/step2.wow --%>
+				,data : {"id" : id}
+				,success : function(data){
+					if(data=='success') {
+						isIdChecked = true;						
+						alert("사용 가능한 아이디");
+					}
+					
+					if(data=='fail'){
+						isIdChecked = true;						
+						alert("이미 있는 아이디");
+					}
+				},error : function(req, st, err){
+					console.log(req);
+				}
+			});
+		}); // idCheck 버튼
+		
+		$("input[name='memId']").on("change", function(e){
+			isIdChecked = false;
+		}); // id 변경될때마다
+		
+		$("#mailAuth").on("click", function(e){
+			e.preventDefault();
+			$.ajax({
+				url : "<c:url value='/join/mailAuth.wow'/>"
+				,data : {"mail" : $("input[name='memMail']").val()}
+			 	,success : function(data){
+			 		alert(data);
+			 		$("#mailAuthKey").val(data);
+			 		var opener = window.open("<c:url value='mailWindow.wow'/>" , "이름 " , "_blank, width=500px, height=200px, left=500px, top=200px")
+			 		
+			 	},error : function(req, st, err) {
+			 		alert(req);
+			 	}
+			 	
+			});
+		});
+		
+		
+		
+		// 다음 버튼(form submit)을 눌렀을 때 idCheck를 했다면 넘어가고
+		// 안했다면 alert("idCheck 안했습니다")
+		// submit 바로 하면 x, 일단 e.preventDefault()
+		// submit해도 되면 submit() 함수
+		
+		$("button[type='submit']").on("click", function(e) {
+			e.preventDefault();
+			if(isIdChecked){
+				$("form").submit();
+			}else{
+				alert("아이디 중복확인해주세요");
+			}
+		});
+		
+		
+		
+		
+		
+		// idCheck 후 id 수정 -> 다시 isIdChecked가 false가 되어야 함
+		
+		
+		
+		
+	}); // document
+

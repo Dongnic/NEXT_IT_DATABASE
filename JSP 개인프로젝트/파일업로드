@@ -1,0 +1,17 @@
+ $output.setAttribute("src", "");
+                   document.querySelector('.output').setAttribute("src", "");
+                   $status.setAttribute("textContent", "");
+                   var file = e.dataTransfer.files[0];
+   	               console.log(file);
+                   if (!file.type) {
+                     $status.setAttribute("textContent", "Error: The File.type property does not appear to be supported on this browser.");
+                     return;
+                   }
+                   if (!file.type.match('image.*')) {
+                     $status.setAttribute("textContent", "Error: The selected file does not appear to be an image.");
+                     return;
+                   } 
+                   reader.readAsDataURL(file);
+                   reader.addEventListener('load', e => {
+                	 $output.setAttribute("src", e.target.result);
+                   });
